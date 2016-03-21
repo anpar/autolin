@@ -1,6 +1,7 @@
 \documentclass[frenchb, paper=a4, fontsize=11pt]{scrartcl}
 
 \input{lib.tex}
+\DeclareSIUnit{\rot}{rot}
 \usepackage[makeroom]{cancel}
 
 %%% Custom sectioning (sectsty package)
@@ -37,7 +38,7 @@
 }
 \author{
 		\normalfont
-		\textsc{Groupe 1}\\
+		\textsc{Groupe 62}\\
       	Antoine Paris\hspace{0.6cm} Philippe Verbist \\	
        	\normalsize
         \today
@@ -46,5 +47,117 @@
 
 \begin{document}
 \maketitle
+
+\section{Identification du modèle}
+En boucle ouverte, la fonction de transfert du moteur à courant
+continu est celle d'un système du premier ordre
+\begin{equation}
+	G(s) = \frac{K}{1+s\tau}
+\end{equation}
+où $K$ est le gain statique et $\tau$ la constante de temps.
+On applique ensuite un échelon d'amplitude \SI{6}{\volt} en
+entrée (on passe de \SI{3}{\volt} à \SI{9}{\volt}). La
+transformée de Laplace d'un échelon d'amplitude $a$ est donnée
+par
+\begin{equation}
+	\frac{a}{s}
+\end{equation}
+et donc la sortie $Y(s)$ est donnée par
+\begin{equation}
+	Y(s) = \frac{K}{1+s\tau}\cdot\frac{a}{s}.
+\end{equation}
+Dans le domaine temporel, on a alors pour $t > 0$
+\begin{equation}
+	y(t) = K(1-e^{-\frac{t}{\tau}})a.
+\end{equation}
+Le résultat de la mesure sur le moteur DC est donné à la figure
+\ref{fig:open-loop-step-response}. En isolant la partie régime
+permanent et en prenant la moyenne de la vitesse angulaire sur
+cette partie, on trouve que
+\begin{equation}
+	\lim_{t\to\infty} y(t) = \SI{16.15}{\rot\per\second}.
+\end{equation}
+Comme ici l'amplitude de l'échelon est de \SI{6}{\volt} et qu'on
+démarre de \SI{3}{\volt}, on obtient
+\begin{equation}
+	K = \frac{16.15-3}{6} = \SI{2.1917}{\rot\per\second\per\volt}.
+\end{equation}
+On trouve également de manière expérimentale en utilisant le fait
+que $y(t = 3\tau) \approx 0.95 \cdot \text{ valeur finale}$
+\begin{equation}
+	\tau = \SI{1.5}{\second}.
+\end{equation}
+Le modèle obtenu est confronté aux mesures expérimentales à la
+figure \ref{fig:open-loop-step-response_model}. On constate que
+le modèle colle assez bien à la réalité.
+
+\begin{figure}[ht]
+	\centering
+	\input{img/open_loop_step_response.tikz}
+	\caption{Réponse indicielle en boucle ouverte.}
+	\label{fig:open-loop-step-response}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\input{img/open_loop_step_response_model.tikz}
+	\caption{Confrontations modèles et mesures pour la réponse
+	indicielle en boucle ouverte.}
+	\label{fig:open-loop-step-response_model}
+\end{figure}
+
+\section{Contrôle de la vitesse angulaire}
+On s'intéresse maintenant au contrôle de la vitesse angulaire
+du moteur. Pour ce faire, on utilise un système de contrôle
+dont le schéma bloc est donné à la figure
+\ref{fig:block_diagram_angular_speed_control}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.7]{img/block_diagram_angular_speed_control.png}
+	\caption{Schéma blocs du système de contrôle de la
+	vitesse angulaire.}
+	\label{fig:block_diagram_angular_speed_control}
+\end{figure}
+
+Dans ces conditions, la fonction de transfert $T_r(s)$ est donnée
+par
+\begin{equation}
+	T_r(s) = \frac{\frac{K_0K}{\tau}}{s^2 +\frac{K_1K+1}{\tau}s + \frac{K_0K}{\tau}}.
+\end{equation}
+Le système de commande en boucle fermée de la vitesse angulaire
+constitue donc un système du deuxième ordre que l'on peut réexprimer
+sous une forme canonique
+\begin{equation}
+	T_r(s) = K'\frac{\omega_n^2}{s^2 + 2\zeta\omega_n s+ \omega_n^2}
+\end{equation}
+où $K'$ est utilisé pour bien différencier le gain statique du système en
+boucle fermée du deuxième ordre du gain statique du système en boucle
+ouverte. On trouve alors
+\begin{align}
+	\omega_n & = \frac{K_0K}{\tau} & \zeta & = \frac{K_1K + 1}{2\sqrt{K_0K\tau}}
+	& K' & = 1.
+\end{align}
+Pour déterminer les paramètres $K_0$ et $K_1$, on a deux spécifications
+qui nous amène chacune une équation
+\begin{enumerate}
+	\item Un overshoot d'environ 2\%. Cette spécification a deux conséquences.
+	Premièrement, elle implique que $\zeta < 1$ (sinon pas d'overshoot). Deuxièmement,
+	il faut que
+	\begin{equation}
+		D = e^{\frac{-\pi\zeta}{\sqrt{1-\zeta^2}}} = 0.02.
+	\end{equation}
+	\item Un temps de réponse légèrement inférieur au temps de réponse en boucle
+	ouverte (i.e. $4\tau$ pour le temps de réponse à 2\%)
+	\begin{equation}
+		t_R = \frac{4}{\zeta\omega_n} = \alpha \cdot 4\tau
+	\end{equation}
+	où $\alpha < 1$.
+\end{enumerate}
+Pour $\alpha = 0.9$ et avec les valeurs de $K$ et $\tau$ obtenues précedemment,
+on obtient
+\begin{align}
+	\zeta & = 0.7797 & K_0 & = 0.6177 & K_1 & = 0.5576.
+\end{align}
 
 \end{document}
