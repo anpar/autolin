@@ -1,0 +1,29 @@
+format long;
+syms xsi omegan K1 K2 
+
+tau = 1.38;%0.825;
+D = 0.05;
+t_R = 5;
+alpha = 10;
+
+xsi = eval(solve(pi*xsi + log(D)*sqrt(1-xsi^2),xsi))
+omegan = eval(solve(4-5*xsi*omegan,omegan))
+
+K0 = alpha*omegan^3*tau/K;
+K1 = tau*omegan^2*(1+2*alpha*xsi)/K;
+K2 = 
+
+
+[K0,K1] =solve(xsi-(K1*K+1)/(2*sqrt(K0*K*tau)),4/(xsi*sqrt(K*K0/tau))-0.90*4*tau, K0, K1);
+K0=eval(K0)
+K1=eval(K1)
+
+% tau = 1.38;%0.825;
+% %xsi = -6.303e-3;
+% K=2.16667;
+% 
+% 
+% 
+% [K0,K1] =solve(xsi-(K1*K+1)/(2*sqrt(K0*K*tau)),4/(xsi*sqrt(K*K0/tau))-0.90*4*tau, K0, K1);
+% K0=eval(K0)
+% K1=eval(K1)
