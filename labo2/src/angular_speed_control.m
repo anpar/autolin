@@ -1,4 +1,4 @@
-tau = 1.5;
+tau = 1.75;%1.5
 K= 2.1917;
 format long;
 syms K1 K0 xsi
