@@ -137,11 +137,101 @@ D&=\left[ \begin{array}{l}
 \end{array} \right] \SI{}{[]}
 \end{align}
 
-\section{Calcul des fonctions de transfert}
+\subsection{Calcul des fonctions de transfert}
 \begin{align}
 G(s) &= C(sI-A)^{-1}B_u + D = \frac{0.02326}{s+0.03545}\\
 H(s) &= C(sI-A)^{-1}B_v + D = \frac{-3.231}{s+0.03545}\\
 \end{align}
+
+\section{Fonctions de transfert en boucle fermée}
+
+Nous considérons maintenant un controlleur PI tel que représenté à la figure \ref{fig:closed_loop}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\linewidth]{img/closed_loop.png}
+	\caption{Diagramme de bloc du système controllé par un controlleur PI}
+	\label{fig:closed_loop}
+\end{figure}
+
+
+
+En posant 
+\begin{align}
+G(s) &=  \frac{0.02326}{s+0.03545} = \frac{\alpha}{s+\beta}\\
+H(s) &= \frac{-3.231}{s+0.03545} = \frac{\alpha'}{s+\beta'}
+\end{align}
+
+On trouve
+\begin{align}
+G_{CL}(s) & \triangleq \frac{y}{r}\rvert_{v=0}\\
+y &= K_P G \left(e+\frac{eK_i}{s} \right)\\
+& = K_P G\left(r-y+\frac{(r-y)K_i}{s} \right)\\
+y(s+\beta) & = K_P \alpha \left( r(1+\frac{K_i}{s}) - y(1+\frac{K_i}{s})\right)\\
+y(s+\beta + 1 + \frac{K_i}{s}) & = \alpha K_P  \ r \left(1+\frac{K_i}{s} \right) \\
+y(s^2 +(\beta+1)s + K_i) & = \alpha K_P  \ r \left(s+K_i \right) \\
+\frac{y}{r}&= \frac{\alpha K_P  (s+K_i )}{s^2 +(\beta+1)s + K_i} = G_{CL}(s)
+\end{align}
+
+
+
+De même,
+\begin{align}
+H_{CL}(s) & \triangleq \frac{y}{v}\rvert_{r=0}\\
+y &= G\left[v+K_P (e+\frac{eK_i}{s})\right]\\
+&= G\left[ v + K_P(-y-\frac{-yK_i}{s})\right] \\
+y(s+\beta') &= \alpha' v - \alpha' K_P y (1+\frac{K_i}{s})\\
+y(s^2 + (\alpha'K_P+\beta')s + \alpha' K_P K_i) &= \alpha'v s\\
+\frac{y}{v} & = \frac{\alpha' s}{s^2 + (\alpha'K_P+\beta')s + \alpha' K_P K_i} = H_{CL}(s)
+\end{align}
+
+\section{Analyse des performances de différents controlleurs avec une perturbation}
+
+
+
+\section{Calcul des paramètres $K_P,K_I$ pour satisfaire certaines spécifications}
+
+Les spécifications sont:
+\begin{itemize}
+\item pas d'overshoot
+\item un temps de réponse trois fois plus petit que le système naturel (non controllé)
+\end{itemize}
+
+Reprenons le dénominateur de la fonction de transfert $G_{CL}(s)$:
+\begin{equation}
+D(s) = s^2 +(\beta+1)s + K_i
+\end{equation}
+que nous pouvons reprocher de la forme canonique suivante pour un système du deuxième ordre
+\begin{equation}
+D_c(s) = s^2 + 2\zeta \omega_n + \omega_n^2.
+\end{equation}
+Par identification, on obtient
+\begin{align}
+\omega_n &= \sqrt{K_I}\\
+\zeta &= \frac{\beta +1}{2\sqrt{K_I}}
+\end{align}
+
+Les spécifications nous imposent:
+\begin{align}
+\zeta &\ge 1\\
+t_R & = \frac{4}{\omega_n(\zeta - \sqrt{\zeta^2-1})} = 
+\end{align}
+
+
+\section{Non-linéarités du système controllé}
+La non-linéarité principale vient du fait que le système d'équations initiales n'est pas linéaire, et qu'il a dû être linéarisé autour de son point d'équilibre. Ainsi, lorsque l'on ne se trouve pas proche de ce point d'équilibre, les équations que nous avons ne sont pas correctes.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
