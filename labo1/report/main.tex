@@ -49,8 +49,18 @@
 \begin{document}
 \maketitle
 
+\section*{TO DO}
 
-\section{Modèle}
+\begin{itemize}
+\item refaire des mesures pour $h_3$,
+\item et pour touts les paramètres possibles de $K_P,K_I$(5 graphes au total),
+\item compléter la figure 4.1
+\item une fois les calculs refaits, continuer la section "spécifications" (calculer KP,KI)
+\item faire la même chose pour la simplification pôle-zéro
+\end{itemize}
+
+
+\section{Modèle et données}
 
 Le modèle repose sur les équations suivantes:
 \begin{itemize}
@@ -62,13 +72,27 @@ Le modèle repose sur les équations suivantes:
 \item loi de Toricelli:
 \begin{align}
 q_{F30}& = S_{F30} \sqrt{2gh_3} \label{eq:toricelliF}\\
-q_{S30} &= S_{S30} \sqrt{2gh_3} \label{eq:toricelliS}
+q_{S30} &= S_{S30} \sqrt{2gh_3} \label{eq:toricelliS}.
 \end{align}
 \end{itemize}
 
+En outre, nous avons les données suivantes
+\begin{align}
+S_R& = \SI{43}{cm^2}\\
+g &= \SI{981}{cm\per\second^2}
+\end{align}
+
 \section{Expliquer les valeurs choisies pour $\eq{q}_{P3}$ et $\eq{h}_3$. Expliquer le calcul de la surface $S_{S30}$}
 
-La valeur de $q_{P3}$ a été imposée lors de l'expérience à $u_0$. La hauteur $h_3$ correspond à la valeur d'équilibre lorsque la valve frontale $S_{F30}$ est fermée et la valve $S_{S30}$ ouverte. Leur valeur chiffrée vaut
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/exp1_ol.png}
+	\caption{Point d'équilibre du système en boucle ouverte, avec $u_0 = \SI{30}{\milli\liter\per\second}$}
+	\label{fig:exp1_ol}
+\end{figure}
+
+
+La valeur de $q_{P3}$ a été imposée lors de l'expérience à $u_0$. La hauteur $h_3$ correspond à la valeur d'équilibre lorsque la valve frontale $S_{F30}$ est fermée et la valve $S_{S30}$ ouverte (voir la figure \ref{fig:exp1_ol}). Leur valeur chiffrée vaut
 \begin{align}
 q_{P3} & = \SI{30}{[\milli\liter\per\second]}\\
 h_3 & = \SI{9.84}{[cm]}.
@@ -124,7 +148,7 @@ B &=\left[ \begin{array}{l}
   \frac{\partial f}{\partial v} \rvert_{\eq{x}}\\
 \end{array} \right] 
 = \left[ \begin{array}{l}
- \frac{1}{S_R} = \SI{43}{[]}\\
+ \frac{1}{S_R} = \SI{0.0233}{[]}\\
   \frac{\sqrt{2g\eq{x}}}{S_R}= \SI{-3.23}{[]}\\
 \end{array} \right] \\
 C &= \frac{\partial h}{\partial x}\rvert_{\eq{x}} = \SI{1}{}\\
@@ -139,76 +163,83 @@ D&=\left[ \begin{array}{l}
 
 \subsection{Calcul des fonctions de transfert}
 \begin{align}
-G(s) &= C(sI-A)^{-1}B_u + D = \frac{0.02326}{s+0.03545}\\
-H(s) &= C(sI-A)^{-1}B_v + D = \frac{-3.231}{s+0.03545}\\
+G(s) &= C(sI-A)^{-1}B_u + D = \frac{B_u}{s-A}= \frac{0.02326}{s+0.03545}\\
+H(s) &= C(sI-A)^{-1}B_v + D = \frac{B_v}{s-A} = \frac{-3.231}{s+0.03545}\\
 \end{align}
+
+Remarquons que l'on peut calculer la constante de temps du système (puisque $G(s) = \frac{B/A}{1-s/A}$)
+\begin{equation}
+t_{R_{OL}} = -\frac{1}{A} \approx \SI{28.2}{s}
+\end{equation}
 
 \section{Fonctions de transfert en boucle fermée}
 
-Nous considérons maintenant un controlleur PI tel que représenté à la figure \ref{fig:closed_loop}.
+Nous considérons maintenant un contrôleur PI tel que représenté à la figure \ref{fig:closed_loop}.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\linewidth]{img/closed_loop.png}
-	\caption{Diagramme de bloc du système controllé par un controlleur PI}
+	\caption{Diagramme de bloc du système contrôlé par un contrôleur PI}
 	\label{fig:closed_loop}
 \end{figure}
 
 
-
-En posant 
-\begin{align}
-G(s) &=  \frac{0.02326}{s+0.03545} = \frac{\alpha}{s+\beta}\\
-H(s) &= \frac{-3.231}{s+0.03545} = \frac{\alpha'}{s+\beta'}
-\end{align}
-
 On trouve
 \begin{align}
-G_{CL}(s) & \triangleq \frac{y}{r}\rvert_{v=0}\\
-y &= K_P G \left(e+\frac{eK_i}{s} \right)\\
-& = K_P G\left(r-y+\frac{(r-y)K_i}{s} \right)\\
-y(s+\beta) & = K_P \alpha \left( r(1+\frac{K_i}{s}) - y(1+\frac{K_i}{s})\right)\\
-y(s+\beta + 1 + \frac{K_i}{s}) & = \alpha K_P  \ r \left(1+\frac{K_i}{s} \right) \\
-y(s^2 +(\beta+1)s + K_i) & = \alpha K_P  \ r \left(s+K_i \right) \\
-\frac{y}{r}&= \frac{\alpha K_P  (s+K_i )}{s^2 +(\beta+1)s + K_i} = G_{CL}(s)
+T_r(s) & \triangleq \frac{y}{r}\rvert_{v=0}\\
+y &= K_P G \left(e+\frac{eK_I}{s} \right)\\
+& = K_P G\left(r-y+\frac{(r-y)K_I}{s} \right)\\
+y(s-A) & = K_P B_u\left( r(1+\frac{K_I}{s}) - y(1+\frac{K_I}{s})\right)\\
+y(s-A + B_uK_P + \frac{B_uK_P K_I}{s}) & = B_uK_P  \ r \left(1+\frac{K_I}{s} \right) \\
+y(s^2 +(B_uK_P-A)s + B_uK_P K_I) & = B_uK_P  \ r \left(s+K_I \right) \\
+\frac{y}{r}&= \frac{B_uK_P  (s+K_I )}{s^2 +(B_uK_P-A)s + B_u K_P K_I} = T_r(s)
 \end{align}
-
-
 
 De même,
 \begin{align}
-H_{CL}(s) & \triangleq \frac{y}{v}\rvert_{r=0}\\
-y &= G\left[v+K_P (e+\frac{eK_i}{s})\right]\\
-&= G\left[ v + K_P(-y-\frac{-yK_i}{s})\right] \\
-y(s+\beta') &= \alpha' v - \alpha' K_P y (1+\frac{K_i}{s})\\
-y(s^2 + (\alpha'K_P+\beta')s + \alpha' K_P K_i) &= \alpha'v s\\
-\frac{y}{v} & = \frac{\alpha' s}{s^2 + (\alpha'K_P+\beta')s + \alpha' K_P K_i} = H_{CL}(s)
+T_v(s) & \triangleq \frac{y}{v}\rvert_{r=0}\\
+y &= H v+ G K_P (e+\frac{eK_I}{s})\\
+&= H v + G K_P(-y-\frac{-yK_I}{s}) \\
+y(s-A) &= B_v v - y B_u K_P (1+\frac{K_I}{s})\\
+y(s^2 + (B_u K_P-A)s + B_u K_P K_I) &= B_v v s\\
+\frac{y}{v} & = \frac{B_v s}{s^2 + (B_u K_P-A)s + B_u K_P K_I} = T_v(s)
 \end{align}
 
-\section{Analyse des performances de différents controlleurs avec une perturbation}
+Une autre manière (plus facile) pour arriver à ces résultats est de considérer le contrôleur 
+\begin{equation}
+C(s) = (1+\frac{K_I}{s})K_P = \frac{1}{s}(s+K_I)K_P
+\end{equation}
+et de calculer ensuite
+\begin{align}
+T_r(s) &= \frac{C(s)G(s)}{1+C(s)G(s)} = \frac{(s+K_I)K_P B_u}{s(s-A)+(s+K_I)K_P B_u}\\
+T_v(s) &= \frac{H(s)}{1+C(s)G(s)} = \frac{B_v s}{s(s-A)+(s+K_I)K_P B_u}
+\end{align}
+
+\section{Analyse des performances de différents contrôleurs avec une perturbation}
 
 
 
 \section{Calcul des paramètres $K_P,K_I$ pour satisfaire certaines spécifications}
 
+\subsection{Sans simplification}
 Les spécifications sont:
 \begin{itemize}
 \item pas d'overshoot
-\item un temps de réponse trois fois plus petit que le système naturel (non controllé)
+\item un temps de réponse trois fois plus petit que le système naturel (non contrôlé)
 \end{itemize}
 
 Reprenons le dénominateur de la fonction de transfert $G_{CL}(s)$:
 \begin{equation}
-D(s) = s^2 +(\beta+1)s + K_i
+D(s) = s^2 +(B_u K_P -A)s + B_u K_P K_I
 \end{equation}
 que nous pouvons reprocher de la forme canonique suivante pour un système du deuxième ordre
 \begin{equation}
-D_c(s) = s^2 + 2\zeta \omega_n + \omega_n^2.
+D_c(s) = s^2 + 2\zeta \omega_n s + \omega_n^2.
 \end{equation}
 Par identification, on obtient
 \begin{align}
-\omega_n &= \sqrt{K_I}\\
-\zeta &= \frac{\beta +1}{2\sqrt{K_I}}
+\omega_n &= \sqrt{B_u K_P K_I}\\
+\zeta &= \frac{B_u K_P-A}{2\sqrt{B_u K_P K_I}}
 \end{align}
 
 Les spécifications nous imposent:
@@ -218,7 +249,22 @@ t_R & = \frac{4}{\omega_n(\zeta - \sqrt{\zeta^2-1})} =
 \end{align}
 
 
-\section{Non-linéarités du système controllé}
+\subsection{Avec simplification pôle-zéro}
+En posant 
+\begin{equation}
+K_I = -A
+\end{equation}
+on obtient une simplification pôle-zéro, et la fonction de transfert devient
+\begin{equation}
+T_r(s) = \frac{K_P B_u}{s+K_P B_u}= \frac{1}{1+\frac{s}{K_P B_u}}.
+\end{equation}
+
+S'agissant d'une fonction du premier ordre, il n'y a pas de dépassement, et le temps de réponse
+\begin{equation}
+t_{R_{CL}} \approx 4\cdot \tau = \frac{4}{K_P B_u} = 
+\end{equation}
+
+\section{Non-linéarités du système contrôlé}
 La non-linéarité principale vient du fait que le système d'équations initiales n'est pas linéaire, et qu'il a dû être linéarisé autour de son point d'équilibre. Ainsi, lorsque l'on ne se trouve pas proche de ce point d'équilibre, les équations que nous avons ne sont pas correctes.
 
 

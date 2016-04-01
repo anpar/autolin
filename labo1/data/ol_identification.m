@@ -18,8 +18,10 @@ syms s
 myG = eval(C*(s-A)^-1*Bu)
 
 SYS = ss(A,[Bu,Bv],C,D);
-[num,den] = ss2tf(A,[Bu,Bv],C,D,2)
-SYS2 = tf(num, den)
+[numG,denG] = ss2tf(A,[Bu,Bv],C,D,1)
+[numH,denH] = ss2tf(A,[Bu,Bv],C,D,2)
+SYSG = tf(numG, denG)
+SYSH = tf(numH, denH)
 
 
 
