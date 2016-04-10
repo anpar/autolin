@@ -26,7 +26,7 @@ for i=1:length(res)
     end
 end
 
-% Usign tau instead of 0.8 leads to a not so good result
+% Using tau instead of 0.8 leads to a not so good result
 Gs = tf([K], [0.8 1])
 
 % Confront model and measurements

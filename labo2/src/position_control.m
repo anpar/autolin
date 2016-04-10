@@ -2,7 +2,7 @@ format long;
 syms xsi
 
 K=2.1917;
-tau = 1.5;
+tau = 0.8;
 D = 0.05;
 t_R = 5;
 alpha = 10;
