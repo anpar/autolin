@@ -20,19 +20,20 @@ for i=1:length(res)
         start = res(i,1);
     end
    
-    if res(i,5) > 3 + (steady_state - 3)*0.95
-        tau = (res(i,1) - start)/3
+    if res(i,5) - 3 > (steady_state - 3)*0.98
+        tau = (res(i,1) - start)/4
         break
     end
 end
 
-Gs = tf([K], [tau 1])
+% Usign tau instead of 0.8 leads to a not so good result
+Gs = tf([K], [0.8 1])
 
 % Confront model and measurements
-%plot(res(87:220,1)-res(87,1), res(87:220,5), 'r'); hold on;
-%[y, t] = step(Gs*6);
-%plot(t, 3+y, 'g');
-%title('Step response in open loop : model vs. measurements')
-%xlabel('time [s]');
-%ylabel('angular speed [rot/s]');
-%legend('Measurements', 'Model');
+plot(res(89:160,1)-res(89,1), res(89:160,5), 'r'); hold on;
+[y, t] = step(Gs*6);
+plot(t, 3+y, 'g');
+title('Step response in open loop : model vs. measurements')
+xlabel('time [s]');
+ylabel('angular speed [rot/s]');
+legend('Measurements', 'Model');
