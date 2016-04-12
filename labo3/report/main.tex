@@ -1,0 +1,66 @@
+\documentclass[frenchb, paper=a4, fontsize=11pt]{scrartcl}
+
+\input{lib.tex}
+\DeclareSIUnit{\rot}{rot}
+\usepackage[makeroom]{cancel}
+
+%%% Custom sectioning (sectsty package)
+\usepackage{sectsty}								% Custom sectioning (see below)
+\allsectionsfont{\scshape}						% Change font of al section commands
+
+%%% Custom headers/footers (fancyhdr package)
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}										% No page header
+\fancyfoot[L]{\small Groupe 1}					% You may remove/edit this line 
+\fancyfoot[C]{}									% Empty
+\fancyfoot[R]{\thepage}							% Pagenumbering
+\renewcommand{\headrulewidth}{0pt}				% Remove header underlines
+\renewcommand{\footrulewidth}{0pt}				% Remove footer underlines
+\setlength{\headheight}{13.6pt}
+
+%%% Equation and float numbering
+\numberwithin{equation}{section}					% Equationnumbering: section.eq#
+\numberwithin{figure}{section}					% Figurenumbering: section.fig#
+\numberwithin{table}{section}						% Tablenumbering: section.tab#
+
+%%% Maketitle metadata
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+
+\title{
+		%\vspace{-1in} 	
+		\usefont{OT1}{bch}{b}{n}
+		\normalfont \normalsize \textsc{Ecole polytechnique de Louvain} \\ [25pt]
+		\horrule{0.5pt} \\[0.4cm]
+		\large LINMA1510 - Automatique linéaire\\
+		\huge Laboratoire 2 - Contrôle d'un moteur à courant continu \\
+		\horrule{1.5pt} \\[0.5cm]
+}
+\author{
+		\normalfont
+		\textsc{Groupe 62}\\
+      	Antoine Paris\hspace{0.6cm} Philippe Verbist \\	
+       	\normalsize
+        \today
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Identification du modèle}
+
+\begin{equation}
+	G(s) = \frac{K}{1+s\tau}
+\end{equation}
+
+
+%\begin{figure}[ht]
+%	\centering
+%	\input{img/open_loop_step_response.tikz}
+%	\caption{Réponse indicielle en boucle ouverte.}
+%	\label{fig:open-loop-step-response}
+%\end{figure}
+
+
+\end{document}
