@@ -3,6 +3,7 @@
 \input{lib.tex}
 \DeclareSIUnit{\rot}{rot}
 \usepackage[makeroom]{cancel}
+\usepackage{todonotes}
 
 %%% Custom sectioning (sectsty package)
 \usepackage{sectsty}								% Custom sectioning (see below)
@@ -33,7 +34,8 @@
 		\normalfont \normalsize \textsc{Ecole polytechnique de Louvain} \\ [25pt]
 		\horrule{0.5pt} \\[0.4cm]
 		\large LINMA1510 - Automatique linéaire\\
-		\huge Laboratoire 2 - Contrôle d'un moteur à courant continu \\
+		\huge Laboratoire 3 - Régulation de la tension aux bornes d'un circuit
+		électrique à l'aide d'un régulateur industriel \\
 		\horrule{1.5pt} \\[0.5cm]
 }
 \author{
@@ -48,18 +50,31 @@
 \begin{document}
 \maketitle
 
-\section{Identification du modèle}
+\section{Fonctions de transfert en boucle ouverte}
+\todo{Ajouter les fonctions de transfert de Matlab. Attention
+de bien mettre les valeurs des composants en kilo-ohms
+et en milli-farads comme conseillé.}
+\paragraph{Minimum de phase}
+\paragraph{Non-minimum de phase}
 
-%\begin{equation}
-%	G(s) = \frac{K}{1+s\tau}
-%\end{equation}
+\section{Fonctions de transfers en boucle fermée}
+\todo{Idem.}
+\paragraph{Minimum de phase}
+\paragraph{Non-minimum de phase}
 
-%\begin{figure}[ht]
-%	\centering
-%	\input{img/open_loop_step_response.tikz}
-%	\caption{Réponse indicielle en boucle ouverte.}
-%	\label{fig:open-loop-step-response}
-%\end{figure}
+\section{Mesure des temps d'établissement}
+Les réponses normalisées à la pertubation des deux systèmes sont
+reprises sur la figure \ref{fig:settling-time}. Comme attendu,
+les temps d'établissement sont identiques dans les deux cas
+\begin{equation}
+	t_R = \SI{45}{\second}.
+\end{equation}
 
+\begin{figure}[ht]
+	\centering
+	\input{img/settling_time.tikz}
+	\caption{Mesure des temps d'établissement.}
+	\label{fig:settling-time}
+\end{figure}
 
 \end{document}

@@ -1,4 +1,4 @@
-
+%% Paramaters values
 C1=2.2e-3;
 C2=2.2e-3;
 R1=470;
@@ -37,16 +37,14 @@ step(SYS2);
 title('Non minimum phase');
 
 
-%% Closed-loop : minimum phase system
-alpha=10;
-tR=45;
-syms omegan xsi PB Ti
-
-[omegan, xsi,PB,Ti] = solve([alpha*omegan^3==8792/(PB*Ti),...
-    omegan^+2*xsi*omegan^2*alpha == 0.09353 + 8892/PB,...
-    2*xsi*omegan+alpha*omegan == 1.161,...
-    xsi==1.5,...
-    tR== 4/(omegan*(xsi-sqrt(xsi^-1)))],...
-    [omegan, xsi,PB,Ti]);
-
-
+% Closed-loop : minimum phase system
+% alpha=10;
+% tR=45;
+% syms omegan xsi PB Ti
+% 
+% [omegan, xsi,PB,Ti] = solve([alpha*omegan^3==8792/(PB*Ti),...
+%     omegan^+2*xsi*omegan^2*alpha == 0.09353 + 8892/PB,...
+%     2*xsi*omegan+alpha*omegan == 1.161,...
+%     xsi==1.5,...
+%     tR== 4/(omegan*(xsi-sqrt(xsi^-1)))],...
+%     [omegan, xsi,PB,Ti]);
