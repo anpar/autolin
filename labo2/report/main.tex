@@ -3,6 +3,7 @@
 \input{lib.tex}
 \DeclareSIUnit{\rot}{rot}
 \usepackage[makeroom]{cancel}
+\usepackage{todonotes}
 
 %%% Custom sectioning (sectsty package)
 \usepackage{sectsty}								% Custom sectioning (see below)
@@ -160,7 +161,23 @@ on obtient
 \begin{align}
 	\zeta & = 0.78 & K_0 & = 1.16 & K_1 & = 0.56.
 \end{align}
+La confrontation du modèle calculé avec les mesures est donnée à la
+figure \ref{fig:angular_speed_control}. On peut faire plusieurs
+observations:
+\begin{itemize}
+	\item Le temps de réponse du système réel est un plus grand que le temps
+	de réponse désiré ;
+	\item Il n'y a pas de dépassement.
+\end{itemize}
+\todo{Expliquer pourquoi on observe ça, voir le rapport avec la non-linéarité.}
 
+\begin{figure}[ht]
+	\centering
+	\input{img/angular_speed_control.tikz}
+	\caption{Confrontations modèles et mesures pour le contrôle
+	de la vitesse angulaire.}
+	\label{fig:angular_speed_control}
+\end{figure}
 
 \section{Contrôle de la position angulaire}
 Pour contrôler la position angulaire, on utilise cette fois un schéma de contrôle
@@ -187,7 +204,12 @@ canonique, le dénominateur peut alors s'écrire
 On a cette fois 3 contraintes sur le systèmes
 \begin{enumerate}
 	\item $a \geq 10\omega_n$ pour que le pôle du système du deuxième ordre soit
-	négligeable ;
+	négligeable\footnote{Imposer cela revient à dire que la constante de temps $\tau
+	\propto \frac{1}{a}$ du système du premier ordre est au moins d'un ordre de
+	grandeur plus faible que le temps de réponse du système du deuxième ordre. Comme
+	c'est évidemment le système plus lent qui caractérise le système global, on peut
+	alors considérer le système global comme étant approximativement égal au
+	système du deuxième ordre.} ;
 	\item Le système doit avoir un overshoot $D \approx 5\%$. Cela implique que
 	$\zeta < 1$ (sinon pas d'overshoot) et que
 	\begin{equation}
@@ -198,5 +220,27 @@ On a cette fois 3 contraintes sur le systèmes
 		t_R = \frac{4}{\zeta\omega_n} = \SI{5}{\second}.
 	\end{equation}
 \end{enumerate}
+En résolvant toutes ces équations, on obtient :
+\begin{align}
+	\zeta & = 0.69 & K_0 & = 5.69 & K_1 & = 7.26 &  K_2 & = 4.36.
+\end{align}
+
+La confrontation du modèle calculé avec les mesures est donnée à la
+figure \ref{fig:position_control}. On peut faire plusieurs
+observation:
+\begin{itemize}
+	\item Le temps de réponse du système réel est plus grand que le temps
+	de réponse désiré ;
+	\item Il n'y a pas de dépassement.
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\input{img/position_control.tikz}
+	\caption{Confrontations modèles et mesures pour le contrôle
+	de la position angulaire.}
+	\label{fig:position_control}
+\end{figure}
+\todo{Expliquer pourquoi on observe ça, voir le rapport avec la non-linéarité.}
 
 \end{document}
