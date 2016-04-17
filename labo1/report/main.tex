@@ -92,17 +92,17 @@ g &= \SI{981}{cm\per\second^2}
 \end{figure}
 
 
-La valeur de $q_{P3}$ a été imposée lors de l'expérience à $u_0$. La hauteur $h_3$ correspond à la valeur d'équilibre lorsque la valve frontale $S_{F30}$ est fermée et la valve $S_{S30}$ ouverte (voir la figure \ref{fig:exp1_ol}). Leur valeur chiffrée vaut
+Lors de l'expérience, la valeur de $q_{P3}$ a été imposée  à $u_0 = \SI{30}{\milli\liter\per\second}$. La hauteur $h_3$ correspond à la valeur d'équilibre lorsque la valve frontale $S_{F30}$ est fermée et la valve $S_{S30}$ ouverte (voir la figure \ref{fig:exp1_ol}). Leur valeur chiffrée vaut
 \begin{align}
 q_{P3} & = \SI{30}{[\milli\liter\per\second]}\\
-h_3 & = \SI{9.84}{[cm]}.
+h_3 & = \SI{10.1}{[cm]}.
 \end{align}
 
 Nous avons travaillé dans les mêmes conditions expérimentales pour calculer $S_{S30}$ ($q_{F30} = 0$ et $\frac{dh_3}{dt} = 0$). Ainsi, à l'équilibre, en reprenant les équations \ref{eq:contnuity} et \ref{eq:toricelliS}, nous avons
 \begin{align}
 &\cancel{\frac{dh_3}{dt}} = \frac{1}{S_R}\eq{q}_{P3} - \frac{1}{S_R}(\cancel{q_{F30}}+q_{S30})\\
 \Leftrightarrow & \eq{q}_{P3} = S_{S30} \sqrt{2g\eq{h}_3} \\
-\Leftrightarrow & S_{S30} = \frac{\eq{q}_{P3}}{ \sqrt{2g\eq{h}_3}} = \SI{0.2159}{cm^2}
+\Leftrightarrow & S_{S30} = \frac{\eq{q}_{P3}}{ \sqrt{2g\eq{h}_3}} = \SI{0.21}{cm^2}
 \end{align}
 
 \section{Détailler le calcul du modèle linéarisé et le calcul des fonctions de transfert $G(s)$ and $H(s)$}
@@ -120,17 +120,14 @@ Régit par les équations
 \frac{dx}{dt} &= f(x,u,v) = \frac{1}{S_R}u - \frac{1}{S_R}(v\sqrt{2gx} + S_{S30}\sqrt{2gx})\\
 y &= h(x,u,v) = x
 \end{align}
-
-Pour linéarisé ce système, nous procédons au changement de variables
+Pour linéariser ce système, on procède au changements de variables
 \begin{align}
 \chi &= x-\eq{x} = x - 9.84\\
 \rho &= u-\eq{u} = u - 30\\
 \nu &= v - \eq{v} = v\\
 \phi &= y - h(\eq{x}) = y - 30\\
 \end{align}
-
-
-et nous tensons de réécrire le système sous la forme
+et on réécrit le système sous la forme
 \begin{equation}
 \left\{ \begin{array}{ccc}
 \frac{d\chi}{dt} &=& A\chi + B\rho \\
@@ -142,34 +139,35 @@ et nous tensons de réécrire le système sous la forme
 avec 
 \begin{align}
 A& = \frac{\partial f(x,u,v)}{\partial x}\rvert_{(\eq{x},\eq{u},\eq{v})} = -\frac{1}{S_R}(v\frac{g}{\sqrt{2gx}} + S_{S30}\frac{g}{\sqrt{2gx}})\rvert_{(\eq{x},\eq{u},\eq{v})} \\
-&= -\frac{1}{S_R	} S_{S30} \frac{g}{\sqrt{2g\eq{x}}} = \SI{-.0355}{[]}\\
+&= -\frac{1}{S_R	} S_{S30} \frac{g}{\sqrt{2g\eq{x}}} = \SI{-.0345}{\per\second}\\
 B &=\left[ \begin{array}{l}
  \frac{\partial f}{\partial u}\rvert_{\eq{x}} \\
   \frac{\partial f}{\partial v} \rvert_{\eq{x}}\\
 \end{array} \right] 
 = \left[ \begin{array}{l}
- \frac{1}{S_R} = \SI{0.0233}{[]}\\
-  \frac{\sqrt{2g\eq{x}}}{S_R}= \SI{-3.23}{[]}\\
+ \frac{1}{S_R} = \SI{0.0233}{cm\per \milli\liter}\\
+  \frac{\sqrt{2g\eq{x}}}{S_R}= \SI{-3.27}{cm \per\milli\liter}\\
 \end{array} \right] \\
-C &= \frac{\partial h}{\partial x}\rvert_{\eq{x}} = \SI{1}{}\\
+C &= \frac{\partial h}{\partial x}\rvert_{\eq{x}} = \SI{1}{cm/cm}\\
 D&=\left[ \begin{array}{l}
  \frac{\partial h}{\partial u}\rvert_{\eq{x}} \\
   \frac{\partial h}{\partial v} \rvert_{\eq{x}}\\
 \end{array} \right]  = \left[ \begin{array}{l}
 0\\
 0
-\end{array} \right] \SI{}{[]}
+\end{array} \right] \SI{}{cm s \per mL}
 \end{align}
+\todo{Vérifier les unités}
 
 \subsection{Calcul des fonctions de transfert}
 \begin{align}
-G(s) &= C(sI-A)^{-1}B_u + D = \frac{B_u}{s-A}= \frac{0.02326}{s+0.03545}\\
-H(s) &= C(sI-A)^{-1}B_v + D = \frac{B_v}{s-A} = \frac{-3.231}{s+0.03545}\\
+G(s) &= C(sI-A)^{-1}B_u + D = \frac{B_u}{s-A}= \frac{0.02326}{s+0.03454}\\
+H(s) &= C(sI-A)^{-1}B_v + D = \frac{B_v}{s-A} = \frac{-3.274}{s+0.03454}\\
 \end{align}
 
 Remarquons que l'on peut calculer la constante de temps du système (puisque $G(s) = \frac{B/A}{1-s/A}$)
 \begin{equation}
-t_{R_{OL}} = -\frac{1}{A} \approx \SI{28.2}{s}
+\tau_{OL} = -\frac{1}{A} \approx \SI{29}{s}
 \end{equation}
 
 \section{Fonctions de transfert en boucle fermée}
@@ -216,6 +214,25 @@ T_v(s) &= \frac{H(s)}{1+C(s)G(s)} = \frac{B_v s}{s(s-A)+(s+K_I)K_P B_u}
 \end{align}
 
 \section{Analyse des performances de différents contrôleurs avec une perturbation}
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{img/cl-2_5-2.eps}
+  \captionof{figure}{A figure}
+  \label{fig:test1}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.4\linewidth]{img/cl-10-0.eps}
+  \captionof{figure}{Another figure}
+  \label{fig:test2}
+\end{minipage}
+\end{figure}
+
+
+
 
 
 
