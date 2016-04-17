@@ -5,7 +5,7 @@ close all;
 % 4 : initial flow u0 [ml.s^-1]
 % 5 : command PI (du) [ml.s^-1]
 
-filename = 'cl-10-0_ultimate.txt';
+filename = 'cl-10-0_1_ultimate.txt';
 A = (importdata(filename));
 plot(A(:,1),A(:,2),'r-');hold on;
 plot(A(:,1),A(:,3),'b-');hold on;

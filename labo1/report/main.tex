@@ -52,11 +52,7 @@
 \section*{TO DO}
 
 \begin{itemize}
-\item refaire des mesures pour $h_3$,
-\item et pour touts les paramètres possibles de $K_P,K_I$(5 graphes au total),
-\item compléter la figure 4.1
-\item une fois les calculs refaits, continuer la section "spécifications" (calculer KP,KI)
-\item faire la même chose pour la simplification pôle-zéro
+\item refaire les mesures avec les KP, KI mesurés
 \end{itemize}
 
 
@@ -215,22 +211,37 @@ T_v(s) &= \frac{H(s)}{1+C(s)G(s)} = \frac{B_v s}{s(s-A)+(s+K_I)K_P B_u}
 
 \section{Analyse des performances de différents contrôleurs avec une perturbation}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{img/cl-2_5-2.eps}
-  \captionof{figure}{A figure}
+  \includegraphics[width=.99\linewidth]{img/cl-2_5-2.eps}
+  \captionof{figure}{$\left\{K_P,K_I\right\}=\left\{2.5,2\right\}$}
   \label{fig:test1}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{img/cl-10-0.eps}
-  \captionof{figure}{Another figure}
+  \includegraphics[width=.99\linewidth]{img/cl-10-0.eps}
+  \captionof{figure}{$\left\{K_P,K_I\right\}=\left\{10,0\right\}$}
   \label{fig:test2}
 \end{minipage}
 \end{figure}
 
+\begin{figure}[!ht]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.99\linewidth]{img/cl-3-1.eps}
+  \captionof{figure}{$\left\{K_P,K_I\right\}=\left\{3,1\right\}$}
+  \label{fig:test3}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=.99\linewidth]{img/cl-10-0_1.eps}
+  \captionof{figure}{$\left\{K_P,K_I\right\}=\left\{10,0.1\right\}$}
+  \label{fig:test4}
+\end{minipage}
+\end{figure}
 
 
 
@@ -244,7 +255,6 @@ Les spécifications sont:
 \item pas d'overshoot
 \item un temps de réponse trois fois plus petit que le système naturel (non contrôlé)
 \end{itemize}
-
 Reprenons le dénominateur de la fonction de transfert $G_{CL}(s)$:
 \begin{equation}
 D(s) = s^2 +(B_u K_P -A)s + B_u K_P K_I
@@ -255,16 +265,20 @@ D_c(s) = s^2 + 2\zeta \omega_n s + \omega_n^2.
 \end{equation}
 Par identification, on obtient
 \begin{align}
-\omega_n &= \sqrt{B_u K_P K_I}\\
+\omega_n &= \sqrt{B_u K_P K_I} \label{eq:ns_omegan}\\
 \zeta &= \frac{B_u K_P-A}{2\sqrt{B_u K_P K_I}}
 \end{align}
-
 Les spécifications nous imposent:
 \begin{align}
 \zeta &\ge 1\\
-t_R & = \frac{4}{\omega_n(\zeta - \sqrt{\zeta^2-1})} = 
+\tau & = \frac{1}{\omega_n(\zeta - \sqrt{\zeta^2-1})} = \frac{\tau_{OL}}{3}\approx \SI{10}{s} \label{eq:ns_tau}
 \end{align}
-
+En imposant $\zeta = 1.5$, et en résolvant les équations \ref{eq:ns_omegan} à \ref{eq:ns_tau}, on trouve
+\begin{align}
+K_P &= 18.97\\
+K_I &= 0.0891
+\end{align}
+La présence d'un zéro dans la fonction de transfert fait apparaitre un overshoot qu'il nest pas possible de contrôler de manière canonique. 
 
 \subsection{Avec simplification pôle-zéro}
 En posant 
@@ -276,10 +290,24 @@ on obtient une simplification pôle-zéro, et la fonction de transfert devient
 T_r(s) = \frac{K_P B_u}{s+K_P B_u}= \frac{1}{1+\frac{s}{K_P B_u}}.
 \end{equation}
 
-S'agissant d'une fonction du premier ordre, il n'y a pas de dépassement, et le temps de réponse
+S'agissant d'une fonction du premier ordre, il n'y a pas de dépassement, et le temps de réponse vaut 
 \begin{equation}
-t_{R_{CL}} \approx 4\cdot \tau = \frac{4}{K_P B_u} = 
+\tau = \frac{1}{K_P B_u} = \frac{\tau_{OL}}{3} 
 \end{equation}
+
+On trouve les valeurs chiffrées suivantes
+\begin{align}
+K_P &= 4.55\\
+K_I &= 0.035
+\end{align}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/final_values.eps}
+	\caption{Réponse du système avec les $K_P,K_I$ calculés}
+	\label{fig:final_values}
+\end{figure}
+\todo{Refaire les mesures avec les bons paramètres}
 
 \section{Non-linéarités du système contrôlé}
 La non-linéarité principale vient du fait que le système d'équations initiales n'est pas linéaire, et qu'il a dû être linéarisé autour de son point d'équilibre. Ainsi, lorsque l'on ne se trouve pas proche de ce point d'équilibre, les équations que nous avons ne sont pas correctes.

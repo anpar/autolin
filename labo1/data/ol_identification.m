@@ -22,8 +22,6 @@ SYS = ss(A,[Bu,Bv],C,D);
 SYSG = tf(numG, denG)
 SYSH = tf(numH, denH)
 
-
-
 %syms s
 
 %G = C*(s-A)^-1*Bu+D;
