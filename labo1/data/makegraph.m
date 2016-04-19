@@ -5,9 +5,12 @@ close all;
 % 4 : initial flow u0 [ml.s^-1]
 % 5 : command PI (du) [ml.s^-1]
 
-filename = 'cl-10-0_1_ultimate.txt';
-A = (importdata(filename));
-plot(A(:,1),A(:,2),'r-');hold on;
+filename = 'test_ultimate.txt';
+A = importdata(filename);
+offset=20;
+A=A(offset:end,1:5);
+A(:,1)=A(:,1)-offset*0.1;
+%plot(A(:,1),A(:,2),'r-');hold on;
 plot(A(:,1),A(:,3),'b-');hold on;
 %plot(A(:,1),A(:,4),'g-');hold on;
 %plot(A(:,1),A(:,5),'y-');hold on;

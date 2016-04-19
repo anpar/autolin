@@ -16,23 +16,16 @@ xsi=1.2;
 % KP=eval(KP)
 % KI=eval(KI)
 
-options=optimset('Display','iter');   % Option to display output
 x=fsolve(@myF,[1 1 1]);
-KP=x(1)
-KI=x(2)
-omegan=x(3)
-
-sqrt(Bu.*KP.*KI) %omegan
-(Bu.*KP-A)./(2.*omegan) %xsi
-(1./(omegan.*(xsi-sqrt((xsi.^2)-1)))) %tau
-
+KP1=x(1)
+KI1=x(2)
 
 
 %% Method 2
 tau_OL=28.3;
 tau_CL=tau_OL/3;
-KI2=-A
 KP2=3/(Bu*tau_OL)
+KI2=-A
 
 %[zeta, KI] = solve(zeta-(beta+1)/(2*sqrt(KI)),4/(sqrt(zeta)*(zeta-sqrt(zeta^2-1)))-tR, zeta, KI);
 %KI=eval(KI)

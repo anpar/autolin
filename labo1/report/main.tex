@@ -279,6 +279,8 @@ K_P &= 18.97\\
 K_I &= 0.0891
 \end{align}
 La présence d'un zéro dans la fonction de transfert fait apparaitre un overshoot qu'il nest pas possible de contrôler de manière canonique. 
+La comparaison théorie/résultats se trouvce à la figure \ref{fig:final_values_1}.
+
 
 \subsection{Avec simplification pôle-zéro}
 En posant 
@@ -300,14 +302,22 @@ On trouve les valeurs chiffrées suivantes
 K_P &= 4.55\\
 K_I &= 0.035
 \end{align}
+La comparaison théorie/résultats se trouvce à la figure \ref{fig:final_values_2}.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.6\linewidth]{img/final_values.eps}
-	\caption{Réponse du système avec les $K_P,K_I$ calculés}
-	\label{fig:final_values}
+	\includegraphics[width=0.8\linewidth]{img/cl_ultimate_without_simplification.eps}
+	\caption{Réponse du système avec $\left\{K_P,K_I \right \} = \left\{18.97,0.089\right\}$}
+	\label{fig:final_values_1}
 \end{figure}
-\todo{Refaire les mesures avec les bons paramètres}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/cl_ultimate.eps}
+	\caption{Réponse du système avec $\left\{K_P,K_I \right \} = \left\{4.55,0.035\right\}$}
+	\label{fig:final_values_2}
+\end{figure}
+
 
 \section{Non-linéarités du système contrôlé}
 La non-linéarité principale vient du fait que le système d'équations initiales n'est pas linéaire, et qu'il a dû être linéarisé autour de son point d'équilibre. Ainsi, lorsque l'on ne se trouve pas proche de ce point d'équilibre, les équations que nous avons ne sont pas correctes.
