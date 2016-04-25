@@ -21,6 +21,7 @@ G1=tf(num11,den11);
 [num12,den12]=ss2tf([-a11,a12;a21,-a22],[d;0],[0,10],0);
 H1=tf(num12,den12);
 
+
 %% Non minimum phase
 SYS2=ss([-a11,a12;a21,-a22],[b,d;0,0],[-10,20],0);
 [num21,den21]=ss2tf([-a11,a12;a21,-a22],[b;0],[-10,20],0);
@@ -36,14 +37,25 @@ subplot(2,1,2);
 step(SYS2);
 title('Non minimum phase');
 
-% Closed-loop : minimum phase system
-% alpha=10;
-% tR=45;
-% syms omegan xsi PB Ti
-% 
-% [omegan, xsi,PB,Ti] = solve([alpha*omegan^3==8792/(PB*Ti),...
-%     omegan^+2*xsi*omegan^2*alpha == 0.09353 + 8892/PB,...
-%     2*xsi*omegan+alpha*omegan == 1.161,...
-%     xsi==1.5,...
-%     tR== 4/(omegan*(xsi-sqrt(xsi^-1)))],...
-%     [omegan, xsi,PB,Ti]);
+%% Closed loop
+
+Ti=11.5;
+PB=30.5;
+C_A=100/PB*tf([Ti 1],[Ti 0]);
+
+Ti=11.5;
+PB=153.3;
+C_B=100/PB*tf([Ti 1],[Ti 0]);
+
+TrA1=feedback(C_A*G1,1);
+TvA1=feedback(H1,G1*C_A);
+
+TrA2=feedback(C_A*G2,1);
+TvA2=feedback(H2,G2*C_A);
+
+TrB1=feedback(C_B*G1,1);
+TvB1=feedback(H1,G1*C_B);
+
+TrB2=feedback(C_B*G2,1);
+TvB2=feedback(H2,G2*C_B);
+

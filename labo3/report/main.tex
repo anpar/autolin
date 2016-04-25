@@ -103,6 +103,7 @@ a&=0.537\\
 PB&=30.5\\
 T_i &= 11.5
 \end{align*}
+\todo{Calculer $T_{v,B}$, et remplacer les valeurs $PB$ et $T_i$.}
 
 \paragraph{Non-minimum de phase}
 
@@ -112,16 +113,34 @@ Nous allons commencer par caluler la fonction de transfert sans tenir compte du 
 \begin{align*}
 C\cdot G &= \frac{100}{s PB}(s+\frac{1}{T_i}) \cdot \frac{-0.90909(s-0.09671)}{(s+1.073)(s+0.08714)}
 \end{align*} 
-Nous allons nous arranger pour simplifier le pôle le plus lent (il ne s'agit pas d'un pôle et d'un zéro instables, on peut donc faire légitimement la simplification) 
-\begin{equation}
-\frac{1}{T_i} = 0.08714
-\end{equation}
+Nous allons nous arranger pour simplifier le pôle le plus lent (il ne s'agit pas d'un pôle et d'un zéro instables, on peut donc faire légitimement la simplification), parce que "its action is leading".
+\begin{align*}
+\frac{1}{T_i} &= 0.08714\\
+T_i &= 11.5\ s
+\end{align*}
 
 
 Calculons maintenant la fonction de transfert en boucle fermée
 \begin{align*}
-T_{v,B} = \frac{-100.83(s-0.09671)}{s^2 + s + }
+T_{r,B} = \frac{\frac{-91}{PB}(s-0.09671)}{s^2 + s (1.073-\frac{91}{PB}) + \frac{8.8}{PB}}
 \end{align*}
+
+En comparant le dénominateur à la forme canonique, on trouve
+\begin{align*}
+\omega_n &= \sqrt{\frac{8.8}{PB}}\\
+2\zeta \omega_n &= 1.073-\frac{91}{PB} 
+\end{align*}
+On pose $\zeta=1.1$ pour ne pas avoir de dépassement, sans être "borderline". On trouve alors 
+\begin{equation}
+PB=153.3.
+\end{equation}
+
+La fonction de transfert de perturbation est alors
+\begin{equation}
+T_{v,B} = 
+\end{equation}
+
+\todo{Calculer $T_{v,B}$, et remplacer les valeurs $PB$ et $T_i$.}
 
 
 \section{Mesure des temps d'établissement}
