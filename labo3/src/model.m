@@ -1,11 +1,11 @@
 %% Paramaters values
-C1=2.2e-3;
-C2=2.2e-3;
-R1=470;
-R1prim=680;
-R12=4700;
+C1=2.2;%e-3;
+C2=2.2;%e-3;
+R1=0.47;%470;
+R1prim=0.68;%680;
+R12=4.7;%4700;
 Rpbar=R1;%(R1*R1prim)/(R1+R1prim);
-V1bar=49;
+V1bar=4.9;
 
 a11 = (1/Rpbar+1/R12)/C1;
 a12=1/(C1*R12);
@@ -35,7 +35,6 @@ title('Minimum phase');
 subplot(2,1,2);
 step(SYS2);
 title('Non minimum phase');
-
 
 % Closed-loop : minimum phase system
 % alpha=10;
