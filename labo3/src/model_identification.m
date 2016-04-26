@@ -11,6 +11,6 @@ plot(res1(:,1)-9, 0.02*ones(size(res1(:,1))), 'b');
 title('Response to a perturbation in open loop')
 xlabel('time [s]');
 ylabel('normalized voltage');
-xlim([res(1,1) res(end-10,1)])
+xlim([res1(1,1) res1(end-10,1)])
 ylim([-0.1 1.1])
 legend('mnimum phase', 'non-minimum phase', '98% response')
