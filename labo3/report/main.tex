@@ -55,12 +55,93 @@
 de bien mettre les valeurs des composants en kilo-ohms
 et en milli-farads comme conseillé.}
 \paragraph{Minimum de phase}
+Le système nous est donné:
+\begin{align*}
+\dot{x}_1 &= -a_{11}x_1 + a_{12}x_2 + bu + dv\\
+\dot{x}_2 &= a_{21}x_1 - a_{22} x_2\\
+y&= 10x_2
+\end{align*}
+On trouve rapidement les fonctions de transfert
+\begin{align*}
+G_A(s) &=\frac{0.08792}{s^2+1.161s+0.09353}
+= \frac{0.08792}{(s+1.073)(s+0.08714)}\\
+H_A(s) &= \frac{9.751}{s^2+1.161s+0.09353}
+= \frac{9.751}{(s+1.073)(s+0.08714)}
+\end{align*}
+
 \paragraph{Non-minimum de phase}
+
+Le système est le même que précédemment, sauf que:
+\begin{align*}
+y&= -10x_1 + 20x_2
+\end{align*}
+On trouve rapidement les fonctions de transfert
+\begin{align*}
+G_B(s) &=\frac{-0.9091s+0.08792}{s^2+1.161s+0.09353} = \frac{-0.90909(s-0.09671)}{(s+1.073)(s+0.08714)}\\
+H_B(s) &= \frac{-100.8s+9.751}{s^2+1.161s+0.09353}
+=\frac{-100.83(s-0.09671)}{(s+1.073)(s+0.8714)}
+\end{align*}
 
 \section{Fonctions de transfers en boucle fermée}
 \todo{Idem.}
 \paragraph{Minimum de phase}
+
+\begin{align*}
+T_{v,A}= \frac{H}{1+CG}= \frac{0.09751s}{s^3+1.161 s^2 + s(0.09353 + \frac{8.792}{PB}) + \frac{8.792}{PB T_i}}
+\end{align*}
+
+Le dénominateur est du $3^{\text{ème}}$ degré. Pour le simplifier, nous allons réaliser un placement de pôle au niveau du pôle le plus lent, à savoir $11.5$ s. En outre, pour supprimer un degré del iberté, nous allons tenter d'obtenir un pôle double en $a$.
+Nous voulons donc obtenir un dénominateur de la forme
+\begin{align*}
+D(s) &= (s+0.087)(s+a)^2\\
+&= s^3 + s^2 (2a+0.087) + s(a^2 + 0.174a) + 0.087a^2
+\end{align*}
+
+Il ne reste plus qu'à identifier les coefficients, et on trouve
+\begin{align*}
+a&=0.537\\
+PB&=30.5\\
+T_i &= 11.5
+\end{align*}
+\todo{Calculer $T_{v,B}$, et remplacer les valeurs $PB$ et $T_i$.}
+
 \paragraph{Non-minimum de phase}
+
+Si on calcule directement la fonction de transfert en boucle fermée, on obtient une fonction du $4^{\text{ème}}$ ordre, ce qui n'est pas très commode.
+
+Nous allons commencer par caluler la fonction de transfert sans tenir compte du retour unitaire en sortie
+\begin{align*}
+C\cdot G &= \frac{100}{s PB}(s+\frac{1}{T_i}) \cdot \frac{-0.90909(s-0.09671)}{(s+1.073)(s+0.08714)}
+\end{align*} 
+Nous allons nous arranger pour simplifier le pôle le plus lent (il ne s'agit pas d'un pôle et d'un zéro instables, on peut donc faire légitimement la simplification), parce que "its action is leading".
+\begin{align*}
+\frac{1}{T_i} &= 0.08714\\
+T_i &= 11.5\ s
+\end{align*}
+
+
+Calculons maintenant la fonction de transfert en boucle fermée
+\begin{align*}
+T_{r,B} = \frac{\frac{-91}{PB}(s-0.09671)}{s^2 + s (1.073-\frac{91}{PB}) + \frac{8.8}{PB}}
+\end{align*}
+
+En comparant le dénominateur à la forme canonique, on trouve
+\begin{align*}
+\omega_n &= \sqrt{\frac{8.8}{PB}}\\
+2\zeta \omega_n &= 1.073-\frac{91}{PB} 
+\end{align*}
+On pose $\zeta=1.1$ pour ne pas avoir de dépassement, sans être "borderline". On trouve alors 
+\begin{equation}
+PB=153.3.
+\end{equation}
+
+La fonction de transfert de perturbation est alors
+\begin{equation}
+T_{v,B} = 
+\end{equation}
+
+\todo{Calculer $T_{v,B}$, et remplacer les valeurs $PB$ et $T_i$.}
+
 
 \section{Mesure des temps d'établissement}
 Les réponses normalisées à la pertubation des deux systèmes sont

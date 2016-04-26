@@ -1,11 +1,11 @@
 %% Paramaters values
-C1=2.2e-3;
-C2=2.2e-3;
-R1=470;
-R1prim=680;
-R12=4700;
+C1=2.2;%e-3;
+C2=2.2;%e-3;
+R1=0.47;%470;
+R1prim=0.68;%680;
+R12=4.7;%4700;
 Rpbar=R1;%(R1*R1prim)/(R1+R1prim);
-V1bar=49;
+V1bar=4.9;
 
 a11 = (1/Rpbar+1/R12)/C1;
 a12=1/(C1*R12);
@@ -20,6 +20,7 @@ SYS1=ss([-a11,a12;a21,-a22],[b,d;0,0],[0,10],0);
 G1=tf(num11,den11);
 [num12,den12]=ss2tf([-a11,a12;a21,-a22],[d;0],[0,10],0);
 H1=tf(num12,den12);
+
 
 %% Non minimum phase
 SYS2=ss([-a11,a12;a21,-a22],[b,d;0,0],[-10,20],0);
@@ -36,15 +37,25 @@ subplot(2,1,2);
 step(SYS2);
 title('Non minimum phase');
 
+%% Closed loop
 
-% Closed-loop : minimum phase system
-% alpha=10;
-% tR=45;
-% syms omegan xsi PB Ti
-% 
-% [omegan, xsi,PB,Ti] = solve([alpha*omegan^3==8792/(PB*Ti),...
-%     omegan^+2*xsi*omegan^2*alpha == 0.09353 + 8892/PB,...
-%     2*xsi*omegan+alpha*omegan == 1.161,...
-%     xsi==1.5,...
-%     tR== 4/(omegan*(xsi-sqrt(xsi^-1)))],...
-%     [omegan, xsi,PB,Ti]);
+Ti=11.5;
+PB=30.5;
+C_A=100/PB*tf([Ti 1],[Ti 0]);
+
+Ti=11.5;
+PB=153.3;
+C_B=100/PB*tf([Ti 1],[Ti 0]);
+
+TrA1=feedback(C_A*G1,1);
+TvA1=feedback(H1,G1*C_A);
+
+TrA2=feedback(C_A*G2,1);
+TvA2=feedback(H2,G2*C_A);
+
+TrB1=feedback(C_B*G1,1);
+TvB1=feedback(H1,G1*C_B);
+
+TrB2=feedback(C_B*G2,1);
+TvB2=feedback(H2,G2*C_B);
+
