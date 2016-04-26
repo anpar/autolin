@@ -30,12 +30,12 @@ G2=tf(num21,den21);
 H2=tf(num22,den22);
 
 
-subplot(2,1,1);
-step(SYS1);
-title('Minimum phase');
-subplot(2,1,2);
-step(SYS2);
-title('Non minimum phase');
+% subplot(2,1,1);
+% step(SYS1);
+% title('Minimum phase');
+% subplot(2,1,2);
+% step(SYS2);
+% title('Non minimum phase');
 
 %% Closed loop
 
@@ -43,19 +43,22 @@ Ti=11.5;
 PB=30.5;
 C_A=100/PB*tf([Ti 1],[Ti 0]);
 
-Ti=11.5;
-PB=153.3;
-C_B=100/PB*tf([Ti 1],[Ti 0]);
-
 TrA1=feedback(C_A*G1,1);
 TvA1=feedback(H1,G1*C_A);
 
-TrA2=feedback(C_A*G2,1);
-TvA2=feedback(H2,G2*C_A);
+TvA2=tf([-100.83 9.75 0],[1, 1.16014-90.909/PB, 0.0935+8.8853/PB - 90.909/PB/Ti, 8.79/PB/Ti]);
+%TrA2=feedback(C_A*G2,1);
+%TvA2=feedback(H2,G2*C_A);
+
+
+Ti=11.5;
+PB=162;
+C_B=100/PB*tf([Ti 1],[Ti 0]);
 
 TrB1=feedback(C_B*G1,1);
 TvB1=feedback(H1,G1*C_B);
 
-TrB2=feedback(C_B*G2,1);
-TvB2=feedback(H2,G2*C_B);
+TvB2=tf([-100.83 9.75 0],[1, 1.16014-90.909/PB, 0.0935+8.8853/PB - 90.909/(PB*Ti), 8.79/(PB*Ti)]);
+%TrB2=feedback(C_B*G2,1);
+%TvB2=feedback(H2,G2*C_B);
 

@@ -132,13 +132,18 @@ En comparant le dénominateur à la forme canonique, on trouve
 \end{align*}
 On pose $\zeta=1.1$ pour ne pas avoir de dépassement, sans être "borderline". On trouve alors 
 \begin{equation}
-PB=153.3.
+PB=162.
 \end{equation}
 
-La fonction de transfert de perturbation est alors
-\begin{equation}
-T_{v,B} = 
-\end{equation}
+La fonction de transfert de perturbation est 
+\begin{align*}
+T_{v,B} &= \frac{-100.83 s (s-0.09671)}{s^3 + s^2 (1.16014-\frac{90.909}{PB})+ s(0.0935 + \frac{8.8853}{PB} + - \frac{90.909}{PBT_i}) + \frac{8.79}{PBT_i}} \\
+&=  \frac{-100.83 s (s-0.09671)}{(s-1.74)(s-0.1668)(s+0.08634)} \ \ \ \ \text{(Cas 1)}\\
+&=  \frac{-100.83 s (s-0.09671)}{(s+0.3573)(s+0.1582)(s+0.0835)} \ \ \ \  \text{(Cas 2)}
+\end{align*}
+
+Dans le premmier cas, un des zéros est du côté positif, il n'est donc pas étonnant que la fonction de transfert soit instable.
+
 
 \todo{Calculer $T_{v,B}$, et remplacer les valeurs $PB$ et $T_i$.}
 
