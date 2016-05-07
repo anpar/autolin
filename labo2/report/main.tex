@@ -79,7 +79,8 @@ cette partie, on trouve que
 	\lim_{t\to\infty} y(t) = \SI{16.15}{\rot\per\second}.
 \end{equation}
 Comme ici l'amplitude de l'échelon est de \SI{6}{\volt} et qu'on
-démarre de \SI{3}{\volt}, on obtient
+démarre de \SI{3}{\volt} (la vitesse de rotation 
+était alors de \SI{3}{\rot\per\second\per\volt}, on obtient
 \begin{equation}
 	K = \frac{16.15-3}{6} = \SI{2.19}{\rot\per\second\per\volt}.
 \end{equation}
@@ -137,7 +138,7 @@ où $K'$ est utilisé pour bien différencier le gain statique du système en
 boucle fermée du deuxième ordre du gain statique du système en boucle
 ouverte. On trouve alors
 \begin{align}
-	\omega_n & = \frac{K_0K}{\tau} & \zeta & = \frac{K_1K + 1}{2\sqrt{K_0K\tau}}
+	\omega_n & = \sqrt{\frac{K_0K}{\tau}} & \zeta & = \frac{K_1K + 1}{2\sqrt{K_0K/\tau}}
 	& K' & = 1.
 \end{align}
 Pour déterminer les paramètres $K_0$ et $K_1$, on a deux spécifications
@@ -156,10 +157,10 @@ qui nous amène chacune une équation
 	\end{equation}
 	où $\alpha < 1$.
 \end{enumerate}
-Pour $\alpha = 0.9$ et avec les valeurs de $K$ et $\tau$ obtenues précedemment,
+Pour $\alpha = 0.9$ et avec les valeurs de $K$ et $\tau$ obtenues précédemment,
 on obtient
 \begin{align}
-	\zeta & = 0.78 & K_0 & = 1.16 & K_1 & = 0.56.
+	\zeta & = 0.78 & K_0 & = 1.16 & K_1 & = 0.81.
 \end{align}
 La confrontation du modèle calculé avec les mesures est donnée à la
 figure \ref{fig:angular_speed_control}. On peut faire plusieurs
@@ -194,16 +195,30 @@ comme illustré à la figure \ref{fig:block_diagram_position_control}
 Dans ces conditions, la fonction de transfert $T_r(s)$ est donnée par
 \begin{equation}
 	T_r(s) = \frac{\frac{K_0K}{\tau}}{s^3 + \frac{1+K_2K}{\tau}s^2 + \frac{K_1K}{\tau}s + \frac{K_0K}{\tau}}.
+	\label{eq:pos_contr_Tr}
 \end{equation}
 En plaçant judicieusement les pôles, on peut décomposer ce système en un système
 du deuxième ordre dominant en série avec un système du premier ordre. Sous forme
 canonique, le dénominateur peut alors s'écrire
 \begin{equation}
-	D(s) = (s^2 + 2\zeta\omega_ns + \omega_n^2)(s+a).
+	D(s) = (s^2 + 2\zeta\omega_ns + \omega_n^2)(s+a)
+	\label{eq:pos_contr_d}
 \end{equation}
-On a cette fois 3 contraintes sur le systèmes
+où l'on pose $a=\alpha \omega_n$. L'équation  \ref{eq:pos_contr_d} devient, sous forme développée
+\begin{equation}
+	D(s) = s^3 + s^2 (\alpha \omega_n + 2\zeta \omega_n) + s(2\alpha \zeta \omega_n^2 + \omega_n^2) + \alpha \omega_n^3.
+	\label{eq:pos_contr_d_developp}
+\end{equation}
+En comparant avec le dénominateur de \ref{eq:pos_contr_Tr}, on obtient les relations
+\begin{align}
+\omega_n (\alpha + 2\zeta) &= \frac{1+K_2K}{\tau} &
+\omega_n^2 (1+2\alpha \zeta) &= \frac{K_1K}{\tau} &
+\alpha \omega_n^3 &= \frac{K_0K}{\tau} 
+\end{align}
+
+On a cette fois 3 contraintes sur le système
 \begin{enumerate}
-	\item $a \geq 10\omega_n$ pour que le pôle du système du deuxième ordre soit
+	\item $\alpha \geq 10$ pour que le pôle du système du deuxième ordre soit
 	négligeable\footnote{Imposer cela revient à dire que la constante de temps $\tau
 	\propto \frac{1}{a}$ du système du premier ordre est au moins d'un ordre de
 	grandeur plus faible que le temps de réponse du système du deuxième ordre. Comme
@@ -227,11 +242,14 @@ En résolvant toutes ces équations, on obtient :
 
 La confrontation du modèle calculé avec les mesures est donnée à la
 figure \ref{fig:position_control}. On peut faire plusieurs
-observation:
+observations:
 \begin{itemize}
 	\item Le temps de réponse du système réel est plus grand que le temps
 	de réponse désiré ;
 	\item Il n'y a pas de dépassement.
+	\item comme le système théorique correspond aux spécifications, 
+	il s'agit de l'effet d'une 
+	non-idéalité du système (voir chapitre suivant).
 \end{itemize}
 
 \begin{figure}[ht]
@@ -241,6 +259,25 @@ observation:
 	de la position angulaire.}
 	\label{fig:position_control}
 \end{figure}
-\todo{Expliquer pourquoi on observe ça, voir le rapport avec la non-linéarité.}
+\todo[inline]{Compléter l'explication.}
 
+
+\section{Réponse à quelques questions}
+\subsection{Non-linéarités du système}
+\begin{itemize}
+\item la réponse du moteur à une tension n'est pas linéaire. Par exemple, il ne tourne pas lorsque le duty cycle se trouve entre [0,12] \%.
+\item sur le même graphique, on voit le retard du système (qui n'est pas
+pris en compte par le modèle.
+(voir figure~\ref{fig:non_linearities}).
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/non_linearities.png}
+	\caption{Application d'un sinus et d'une tension constante (duty cycles faibles).}
+	\label{fig:non_linearities}
+\end{figure}
+
+\subsection{Amélioration du système}
+\todo[inline]{A faire}
 \end{document}
