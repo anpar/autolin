@@ -4,6 +4,7 @@
 \DeclareSIUnit{\rot}{rot}
 \usepackage[makeroom]{cancel}
 \usepackage{todonotes}
+\usepackage{epstopdf}
 
 %%% Custom sectioning (sectsty package)
 \usepackage{sectsty}								% Custom sectioning (see below)
@@ -50,10 +51,55 @@
 \begin{document}
 \maketitle
 
+\section{Système linéarisé}
+Le système linéarisé autour de $\bar{i}_{\%}=50\%$, $\bar{V}_1 = 4.9$
+et $\bar{R}_p = R_1 = 0.47k\/Omega$
+se  présente sous la forme
+\begin{equation}
+\left\{ \begin{array}{lcl}
+\dot{x}_1 &=& -a_{11}x_1 + a_{12} x_2 + bu + dv\\
+\dot{x}_2 &=& a_{21} x_1 -a_{22} x_2\\
+y&=& 10x_2 \quad \text{ou } y=-10x_1 + 20x_2
+\end{array}\right.
+\end{equation}
+avec 
+\begin{equation}
+\left\{\begin{array}{lclcl}
+a_{11} &=& \frac{1}{C_1}(\frac{1}{\bar{R}_p} + \frac{1}{R_{12}}) &=& 1.06\\
+a_{12} &=& \frac{1}{C_1 R_{12}} &=& 0.097\\
+a_{21} &=& \frac{1}{C_1 R_{12}} &=& 0.097\\
+a_{22} &=& \frac{1}{C_2R_{12}} &=& 0.097\\
+b &=& \frac{1}{5C_1} &=& 0.091\\
+d &=& \frac{\bar{V}_1}{C_1\bar{R}_p^2} &=& 9.67
+\end{array}\right.
+\end{equation}
+
+On a également
+\begin{align}
+A &= \bigg[\begin{array}{cc}
+-a_{11} & a_{12}\\
+a_{21} & -a_{22}
+\end{array} \bigg]\\
+B_u &= \bigg[\begin{array}{c}
+b\\
+0
+\end{array} \bigg], \quad
+B_v = \bigg[\begin{array}{c}
+d\\
+0
+\end{array} \bigg]\\
+C &= \bigg[\begin{array}{c}
+0\\
+10
+\end{array} \bigg]
+\quad \text{ou } C =\bigg[\begin{array}{c}
+-10\\
+20
+\end{array} \bigg]\\
+D&=0
+\end{align}
+
 \section{Fonctions de transfert en boucle ouverte}
-\todo{Ajouter les fonctions de transfert de Matlab. Attention
-de bien mettre les valeurs des composants en kilo-ohms
-et en milli-farads comme conseillé.}
 \paragraph{Minimum de phase}
 Le système nous est donné:
 \begin{align*}
@@ -63,9 +109,13 @@ y&= 10x_2
 \end{align*}
 On trouve rapidement les fonctions de transfert
 \begin{align*}
-G_A(s) &=\frac{0.08792}{s^2+1.161s+0.09353}
+G_A(s) &= C(sI-A)^{-1} B_u + D\\
+&=\frac{10ba_{21}}{s^2 + (a_{11}+a_{22})s + a_{11}a_{22} - a_{12}a_{21}}\\
+&=\frac{0.08792}{s^2+1.161s+0.09353}
 = \frac{0.08792}{(s+1.073)(s+0.08714)}\\
-H_A(s) &= \frac{9.751}{s^2+1.161s+0.09353}
+H_A(s) &= C(sI-A)^{-1} B_v + D\\
+&=\frac{10da_{21}}{s^2 + (a_{11}+a_{22})s + a_{11}a_{22} - a_{12}a_{21}}\\
+&=\frac{9.751}{s^2+1.161s+0.09353}
 = \frac{9.751}{(s+1.073)(s+0.08714)}
 \end{align*}
 
@@ -77,17 +127,38 @@ y&= -10x_1 + 20x_2
 \end{align*}
 On trouve rapidement les fonctions de transfert
 \begin{align*}
-G_B(s) &=\frac{-0.9091s+0.08792}{s^2+1.161s+0.09353} = \frac{-0.90909(s-0.09671)}{(s+1.073)(s+0.08714)}\\
-H_B(s) &= \frac{-100.8s+9.751}{s^2+1.161s+0.09353}
+G_B(s) &= \frac{-10 b (s-2a_{21}+a_{22})}{s^2 + (a_{11}+a_{22})s + a_{11}a_{22}-a_{12}a_{21}}\\
+&=\frac{-0.9091s+0.08792}{s^2+1.161s+0.09353} = \frac{-0.90909(s-0.09671)}{(s+1.073)(s+0.08714)}\\
+H_B(s) &= \frac{-10 d (s-2a_{21}+a_{22})}{s^2 + (a_{11}+a_{22})s + a_{11}a_{22}-a_{12}a_{21}}\\
+&=\frac{-100.8s+9.751}{s^2+1.161s+0.09353}
 =\frac{-100.83(s-0.09671)}{(s+1.073)(s+0.8714)}
 \end{align*}
 
-\section{Fonctions de transfers en boucle fermée}
-\todo{Idem.}
+\section{Mesure des temps d'établissement}
+Les réponses normalisées à la pertubation des deux systèmes sont
+reprises sur la figure \ref{fig:settling-time}. Comme attendu,
+les temps d'établissement sont identiques dans les deux cas
+\begin{equation}
+	t_R = \SI{45}{\second}.
+\end{equation}
+
+\begin{figure}[ht]
+	\centering
+	\input{img/settling_time.tikz}
+	\caption{Mesure des temps d'établissement.}
+	\label{fig:settling-time}
+\end{figure}
+
+\section{Fonctions de transferts en boucle fermée}
+Le controlleur est de la forme
+\begin{equation}
+C(s) = \frac{100}{sPB}(s+\frac{1}{T_i}).
+\end{equation}
 \paragraph{Minimum de phase}
 
 \begin{align*}
-T_{v,A}= \frac{H}{1+CG}= \frac{0.09751s}{s^3+1.161 s^2 + s(0.09353 + \frac{8.792}{PB}) + \frac{8.792}{PB T_i}}
+T_{v,A}&= \frac{10da_{21}s}{s^3+(a_{11}+a_{22})s^2 + (a_{11}a_{22}-a_{21}a_{12} + \frac{10^3}{PB}ba_{21})s + \frac{10^3}{PBT_i}ba_{21}}\\
+&=\frac{H}{1+CG}= \frac{0.09751s}{s^3+1.161 s^2 + s(0.09353 + \frac{8.792}{PB}) + \frac{8.792}{PB T_i}}
 \end{align*}
 
 Le dénominateur est du $3^{\text{ème}}$ degré. Pour le simplifier, nous allons réaliser un placement de pôle au niveau du pôle le plus lent, à savoir $11.5$ s. En outre, pour supprimer un degré del iberté, nous allons tenter d'obtenir un pôle double en $a$.
@@ -137,31 +208,22 @@ PB=162.
 
 La fonction de transfert de perturbation est 
 \begin{align*}
-T_{v,B} &= \frac{-100.83 s (s-0.09671)}{s^3 + s^2 (1.16014-\frac{90.909}{PB})+ s(0.0935 + \frac{8.8853}{PB} + - \frac{90.909}{PBT_i}) + \frac{8.79}{PBT_i}} \\
+T_{v,B} &= \frac{-10ds(s-2a_{21}+a_{22})}{s^3+s^2(a_{11}+a_{22}-\frac{10^3}{PB}b)
++s(a_{11}a_{22}-a_{21}a_{12}+\frac{10^3}{PB}b(2a_{21}-a_{22}-\frac{1}{T_i}))
++\frac{10^3}{PBT_i}b(2a_{21}-a_{22})}\\
+&=\frac{-100.83 s (s-0.09671)}{s^3 + s^2 (1.16014-\frac{90.909}{PB})+ s(0.0935 + \frac{8.8853}{PB} + - \frac{90.909}{PBT_i}) + \frac{8.79}{PBT_i}} \\
 &=  \frac{-100.83 s (s-0.09671)}{(s-1.74)(s-0.1668)(s+0.08634)} \ \ \ \ \text{(Cas 1)}\\
 &=  \frac{-100.83 s (s-0.09671)}{(s+0.3573)(s+0.1582)(s+0.0835)} \ \ \ \  \text{(Cas 2)}
 \end{align*}
 
-Dans le premmier cas, un des zéros est du côté positif, il n'est donc pas étonnant que la fonction de transfert soit instable.
+Dans le premier cas, un des zéros est du côté positif, il n'est donc pas étonnant que la fonction de transfert soit instable.
 
+Enfin, la réponse à un échelon est
+\begin{align*}
+T_{r,B} &= \frac{-0.56(s-0.097)}{(s+0.36)(s+0.15)}.
+\end{align*}
 
-\todo{Calculer $T_{v,B}$, et remplacer les valeurs $PB$ et $T_i$.}
-
-
-\section{Mesure des temps d'établissement}
-Les réponses normalisées à la pertubation des deux systèmes sont
-reprises sur la figure \ref{fig:settling-time}. Comme attendu,
-les temps d'établissement sont identiques dans les deux cas
-\begin{equation}
-	t_R = \SI{45}{\second}.
-\end{equation}
-
-\begin{figure}[ht]
-	\centering
-	\input{img/settling_time.tikz}
-	\caption{Mesure des temps d'établissement.}
-	\label{fig:settling-time}
-\end{figure}
+\todo{Calculer $T_{r,B}$, et remplacer les valeurs $PB$ et $T_i$.}
 
 \section{Réjection des perturbations}
 
