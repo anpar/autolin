@@ -223,17 +223,27 @@ Enfin, la réponse à un échelon est
 T_{r,B} &= \frac{-0.56(s-0.097)}{(s+0.36)(s+0.15)}.
 \end{align*}
 
-\todo{Calculer $T_{r,B}$, et remplacer les valeurs $PB$ et $T_i$.}
-
 \section{Réjection des perturbations}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.9]{img/pert-rejection-closed-loop.eps}
 	\caption{Comparaison des réactions à une perturbation appliquée en
+	$t=\SI{10}{s}$ pour un système à non-minimum de phase instable/stable
+	et un système à minimum de phase.}
+	\label{fig:pert-rej}
+\end{figure}
+
+\section{Setpoint tracking}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.9]{img/setpoint-step-response.eps}
+	\caption{Comparaison des réactions à une perturbation appliquée en
 	$t=\SI{10}{s}$ pour un système à non-minimum de phase et un système
 	à minimum de phase.}
-	\label{fig:settling-time}
+	\label{fig:pert-rej}
 \end{figure}
+
+
 
 \end{document}
